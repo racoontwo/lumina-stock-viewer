@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button';
 import { ArrowUpDown, Trash2 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const StockTable: React.FC = () => {
   const { 
@@ -15,6 +16,8 @@ const StockTable: React.FC = () => {
     sortDirection,
     setSortField 
   } = useStockStore();
+  
+  const navigate = useNavigate();
 
   const getSortIcon = (field: keyof Stock) => {
     if (sortField !== field) return <ArrowUpDown className="ml-2 h-4 w-4" />;
@@ -33,6 +36,10 @@ const StockTable: React.FC = () => {
     } catch (e) {
       return dateStr; // Return original if parsing fails
     }
+  };
+  
+  const handleRowClick = (id: string) => {
+    navigate(`/stock/${id}`);
   };
 
   return (
@@ -70,10 +77,20 @@ const StockTable: React.FC = () => {
             </TableRow>
           ) : (
             filteredStocks.map((stock) => (
-              <TableRow key={stock.id} className="hover:bg-darkBg2 transition-colors">
-                <TableCell className="font-medium text-neonPink">{stock.ticker}</TableCell>
-                <TableCell>{formatDate(stock.date)}</TableCell>
-                <TableCell>
+              <TableRow 
+                key={stock.id} 
+                className="hover:bg-darkBg2 transition-colors cursor-pointer"
+              >
+                <TableCell 
+                  className="font-medium text-neonPink"
+                  onClick={() => handleRowClick(stock.id!)}
+                >
+                  {stock.ticker}
+                </TableCell>
+                <TableCell onClick={() => handleRowClick(stock.id!)}>
+                  {formatDate(stock.date)}
+                </TableCell>
+                <TableCell onClick={() => handleRowClick(stock.id!)}>
                   <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-neonBlue bg-opacity-20 text-neonBlue">
                     {stock.type}
                   </span>
@@ -82,7 +99,10 @@ const StockTable: React.FC = () => {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    onClick={() => removeStock(stock.id!)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeStock(stock.id!);
+                    }}
                     className="hover:text-neonPink hover:bg-red-900 hover:bg-opacity-20"
                   >
                     <Trash2 className="h-4 w-4" />
