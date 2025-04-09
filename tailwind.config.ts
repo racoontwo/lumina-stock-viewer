@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom cyberpunk theme colors
+				neonPink: '#ff2a6d',
+				neonBlue: '#01c8ee',
+				darkBg: '#121212',
+				darkBg2: '#1a1a2e',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +90,20 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'glow': {
+					'0%, 100%': { 
+						textShadow: '0 0 10px #ff2a6d, 0 0 20px #ff2a6d'
+					},
+					'50%': { 
+						textShadow: '0 0 20px #01c8ee, 0 0 30px #01c8ee'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'glow': 'glow 2s ease-in-out infinite'
 			}
 		}
 	},
