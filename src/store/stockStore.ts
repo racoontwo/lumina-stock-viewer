@@ -41,6 +41,7 @@ interface StockState {
   setSortDirection: (direction: 'asc' | 'desc') => void;
   importStocks: (stocks: Stock[]) => void;
   resetFilters: () => void;
+  applyFiltersAndSort: (stocks: Stock[]) => Stock[]; // Added this to the interface
 }
 
 export const useStockStore = create<StockState>((set, get) => ({
